@@ -1,0 +1,19 @@
+{
+    "files.exclude": {
+        ".git": true,
+        ".gitattributes": true,
+        ".gitconfig": true,
+        ".gitignore": true,
+        ".vscode/": true,
+        "bin/": true,
+        "build/": true,
+        "dist/": true,
+        "src/.vs/": true,
+        "src/.editorconfig": true,
+        "src/omnisharp.json": true,
+        "src/*/bin/": true,
+        "src/*/obj/": true,
+    },
+    "dotnet-test-explorer.testProjectPath": "src/Xoshiro.Test/Xoshiro.Test.csproj",
+    "omnisharp.useEditorFormattingSettings": false
+}

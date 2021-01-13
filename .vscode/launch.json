@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Console",
+            "request": "launch",
+            "type": "coreclr",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceFolder}/src/Xoshiro.Example/bin/Debug/net5.0",
+            "program": "Xoshiro.Example.dll",
+            "args": [],
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart"
+        }
+    ]
+}

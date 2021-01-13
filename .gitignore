@@ -1,0 +1,11 @@
+bin/
+build/
+dist/
+research/
+src/.vs/
+src/*/obj/
+
+a.out
+
+.*.swp
+*.zip
