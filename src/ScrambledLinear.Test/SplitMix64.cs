@@ -1,18 +1,16 @@
 using System;
-using System.Reflection;
 using Xunit;
-using Subject = ScrambledLinear;
 
 namespace Tests {
     public class SplitMix64 {
 
         [Fact(DisplayName = "splitmix64: Reference")]
         public void InternalStream() {  // checking internal stream is equal to the official implementation
-            var random = new Subject.SplitMix64(42);
+            var random = new ScrambledLinear.SplitMix64(42);
 
             UInt64[] values = new UInt64[20];
             for (int i = 0; i < values.Length; i++) {
-                values[i] = random.Next();
+                values[i] = (UInt64)random.Next();
             }
 
             Assert.Equal((UInt64)0xbdd732262feb6e95, values[0]);
@@ -39,51 +37,71 @@ namespace Tests {
             for (int i = 0; i < 1000000; i++) {
                 random.Next();
             }
-            Assert.Equal((UInt64)0xf5bccc21b1a2a703, random.Next());
+            Assert.Equal((UInt64)0xf5bccc21b1a2a703, (UInt64)random.Next());
         }
 
 
-        [Fact(DisplayName = "splitmix64: Seed = 0")]
-        public void Init0() {
-            var random = new Subject.SplitMix64(0);
+        [Fact(DisplayName = "splitmix64: Seed = UInt64.MinValue")]
+        public void InternalSeedMin() {
+            var random = new ScrambledLinear.SplitMix64(unchecked((long)UInt64.MinValue));
 
-            Assert.Equal((UInt64)0xE220A8397B1DCDAF, random.Next());
-            Assert.Equal((UInt64)0x6E789E6AA1B965F4, random.Next());
-            Assert.Equal((UInt64)0x06C45D188009454F, random.Next());
-        }
-
-        [Fact(DisplayName = "splitmix64: Seed = Int32.MinValue")]
-        public void InitMinInt() {
-            var random = new Subject.SplitMix64(unchecked((uint)int.MinValue));
-
-            Assert.Equal((UInt64)0x25493CC63225736C, random.Next());
-            Assert.Equal((UInt64)0xF8845BB42853955B, random.Next());
-            Assert.Equal((UInt64)0xE2C35CDF1BA90FD6, random.Next());
-        }
-
-        [Fact(DisplayName = "splitmix64: Seed = Int32.MaxValue")]
-        public void InitMaxInt() {
-            var random = new Subject.SplitMix64(int.MaxValue);
-
-            Assert.Equal((UInt64)0x61FA36A6261A4BE7, random.Next());
-            Assert.Equal((UInt64)0x97A775B9E76A5C7, random.Next());
-            Assert.Equal((UInt64)0x6536E03C7465DF5E, random.Next());
+            Assert.Equal((UInt64)0xE220A8397B1DCDAF, (UInt64)random.Next());
+            Assert.Equal((UInt64)0x6E789E6AA1B965F4, (UInt64)random.Next());
+            Assert.Equal((UInt64)0x06C45D188009454F, (UInt64)random.Next());
         }
 
         [Fact(DisplayName = "splitmix64: Seed = UInt64.MaxValue")]
-        public void InitMax() {
-            var random = new Subject.SplitMix64(UInt64.MaxValue);
+        public void InternalSeedMax() {
+            var random = new ScrambledLinear.SplitMix64(unchecked((long)UInt64.MaxValue));
 
-            Assert.Equal((UInt64)0xE4D971771B652C20, random.Next());
-            Assert.Equal((UInt64)0xE99FF867DBF682C9, random.Next());
-            Assert.Equal((UInt64)0x382FF84CB27281E9, random.Next());
+            Assert.Equal((UInt64)0xE4D971771B652C20, (UInt64)random.Next());
+            Assert.Equal((UInt64)0xE99FF867DBF682C9, (UInt64)random.Next());
+            Assert.Equal((UInt64)0x382FF84CB27281E9, (UInt64)random.Next());
+        }
+
+
+        [Fact(DisplayName = "splitmix64: Seed = Int32.MinValue")]
+        public void SeedInt32Min() {
+            var random = new ScrambledLinear.SplitMix64(int.MinValue);
+
+            Assert.Equal((UInt64)0xEE1591EA220FB185, (UInt64)random.Next());
+            Assert.Equal((UInt64)0x4A69C0DB2A03EFBE, (UInt64)random.Next());
+            Assert.Equal((UInt64)0x4C4DF2838B6AD7DF, (UInt64)random.Next());
+        }
+
+        [Fact(DisplayName = "splitmix64: Seed = Int32.MaxValue")]
+        public void SeedInt32Max() {
+            var random = new ScrambledLinear.SplitMix64(int.MaxValue);
+
+            Assert.Equal((UInt64)0x61FA36A6261A4BE7, (UInt64)random.Next());
+            Assert.Equal((UInt64)0x097A775B9E76A5C7, (UInt64)random.Next());
+            Assert.Equal((UInt64)0x6536E03C7465DF5E, (UInt64)random.Next());
+        }
+
+
+        [Fact(DisplayName = "splitmix64: Seed = Int64.MinValue")]
+        public void SeedInt64Min() {
+            var random = new ScrambledLinear.SplitMix64(long.MinValue);
+
+            Assert.Equal((UInt64)0x481EC0A212A9F3DB, (UInt64)random.Next());
+            Assert.Equal((UInt64)0xC46FA638A6309012, (UInt64)random.Next());
+            Assert.Equal((UInt64)0x61A685FFC80A8140, (UInt64)random.Next());
+        }
+
+        [Fact(DisplayName = "splitmix64: Seed = Int64.MaxValue")]
+        public void SeedInt64Max() {
+            var random = new ScrambledLinear.SplitMix64(long.MaxValue);
+
+            Assert.Equal((UInt64)0x2A67D7552E039EA7, (UInt64)random.Next());
+            Assert.Equal((UInt64)0xF20C01408082F947, (UInt64)random.Next());
+            Assert.Equal((UInt64)0xEC159351AF424190, (UInt64)random.Next());
         }
 
 
         [Fact(DisplayName = "splitmix64: Two instances compared")]
         public void TwoInstances() {  // since we're using 100ns, it should not result in the same random values (let's ignore them being equal by accident)
-            var random1 = new Subject.SplitMix64();
-            var random2 = new Subject.SplitMix64();
+            var random1 = new ScrambledLinear.SplitMix64();
+            var random2 = new ScrambledLinear.SplitMix64();
 
             Assert.NotEqual(random1.Next(), random2.Next());
             Assert.NotEqual(random1.Next(), random2.Next());

@@ -24,7 +24,7 @@ namespace ScrambledLinear {
         public Xoshiro512PP(int seed) {
             var sm64 = new SplitMix64(unchecked((uint)seed));
             for (var i = 0; i < 8; i++) {
-                s[i] = sm64.Next();
+                s[i] = unchecked((UInt64)sm64.Next());
             }
         }
 
