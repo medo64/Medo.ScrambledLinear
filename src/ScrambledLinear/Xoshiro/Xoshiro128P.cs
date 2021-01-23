@@ -22,12 +22,9 @@ namespace ScrambledLinear {
         /// </summary>
         /// <param name="seed">Seed value.</param>
         public Xoshiro128P(int seed) {
-            UInt64 x = unchecked((uint)seed);
-            for (var i = 0; i < 4; i++) {  // splitmix64
-                var z = unchecked(x += 0x9E3779B97F4A7C15);
-                z = unchecked((z ^ (z >> 30)) * 0xBF58476D1CE4E5B9);
-                z = unchecked((z ^ (z >> 27)) * 0x94D049BB133111EB);
-                s[i] = unchecked((UInt32)(z ^ (z >> 31)));
+            var sm64 = new SplitMix64(unchecked((uint)seed));
+            for (var i = 0; i < 4; i++) {
+                s[i] = unchecked((UInt32)sm64.Next());
             }
         }
 
