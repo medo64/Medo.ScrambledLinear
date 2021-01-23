@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Xoshiro {
+namespace Xoroshiro {
 
     /// <summary>
     /// xoshiro1024*

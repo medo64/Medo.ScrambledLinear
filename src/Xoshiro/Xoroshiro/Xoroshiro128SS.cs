@@ -1,19 +1,19 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Xoshiro {
+namespace Xoroshiro {
 
     /// <summary>
-    /// xoroshiro128+
-    /// 64-bit generator intended for floating point numbers with 128-bit state.
+    /// xoroshiro128**
+    /// 64-bit all-purpose generator with 128-bit state.
     /// </summary>
-    /// <remarks>http://prng.di.unimi.it/xoroshiro128plus.c</remarks>
-    public class Xoroshiro128P {
+    /// <remarks>http://prng.di.unimi.it/xoroshiro128starstar.c</remarks>
+    public class Xoroshiro128SS {
 
         /// <summary>
         /// Creates a new instance.
         /// </summary>
-        public Xoroshiro128P()
+        public Xoroshiro128SS()
             : this((int)(DateTime.UtcNow.Ticks % int.MaxValue)) {
         }
 
@@ -21,7 +21,7 @@ namespace Xoshiro {
         /// Creates a new instance.
         /// </summary>
         /// <param name="seed">Seed value.</param>
-        public Xoroshiro128P(int seed) {
+        public Xoroshiro128SS(int seed) {
             UInt64 x = unchecked((uint)seed);
             for (var i = 0; i < 2; i++) {  // splitmix64
                 var z = unchecked(x += 0x9E3779B97F4A7C15);
@@ -103,7 +103,7 @@ namespace Xoshiro {
         private UInt64 NextValue() {
             UInt64 s0 = s[0];
             UInt64 s1 = s[1];
-            UInt64 result = unchecked(s0 + s1);
+            UInt64 result = unchecked(RotateLeft(unchecked(s0 * 5), 7) * 9);
 
             s1 ^= s0;
             s[0] = RotateLeft(s0, 24) ^ s1 ^ (s1 << 16);

@@ -1,19 +1,19 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Xoshiro {
+namespace Xoroshiro {
 
     /// <summary>
-    /// xoroshiro128**
-    /// 64-bit all-purpose generator with 128-bit state.
+    /// xoshiro1024++
+    /// 64-bit all-purpose generator with 1024-bit state.
     /// </summary>
-    /// <remarks>http://prng.di.unimi.it/xoroshiro128starstar.c</remarks>
-    public class Xoroshiro128SS {
+    /// <remarks>http://prng.di.unimi.it/xoroshiro1024plusplus.c</remarks>
+    public class Xoroshiro1024PP {
 
         /// <summary>
         /// Creates a new instance.
         /// </summary>
-        public Xoroshiro128SS()
+        public Xoroshiro1024PP()
             : this((int)(DateTime.UtcNow.Ticks % int.MaxValue)) {
         }
 
@@ -21,13 +21,13 @@ namespace Xoshiro {
         /// Creates a new instance.
         /// </summary>
         /// <param name="seed">Seed value.</param>
-        public Xoroshiro128SS(int seed) {
-            UInt64 x = unchecked((uint)seed);
-            for (var i = 0; i < 2; i++) {  // splitmix64
+        public Xoroshiro1024PP(int seed) {
+            UInt64 x = unchecked((uint)seed);  // convert seed to unsigned equivalent
+            for (var i = 0; i < 16; i++) {  // splitmix64
                 var z = unchecked(x += 0x9E3779B97F4A7C15);
                 z = unchecked((z ^ (z >> 30)) * 0xBF58476D1CE4E5B9);
                 z = unchecked((z ^ (z >> 27)) * 0x94D049BB133111EB);
-                s[i] = unchecked((UInt64)(z ^ (z >> 31)));
+                s[i] = z ^ (z >> 31);
             }
         }
 
@@ -79,9 +79,9 @@ namespace Xoshiro {
             if (buffer == null) { throw new ArgumentNullException(nameof(buffer), "Buffer cannot be null."); }
 
             byte[] bufferRnd = Array.Empty<byte>();
-            int r = 4;
+            int r = 8;
             for (int i = 0; i < buffer.Length; i++) {
-                if (r == 4) {  // get next 4 bytes
+                if (r == 8) {  // get next 8 bytes
                     bufferRnd = BitConverter.GetBytes(NextValue());
                     r = 0;
                 }
@@ -98,16 +98,18 @@ namespace Xoshiro {
             return (x << k) | (x >> (64 - k));
         }
 
-        private readonly UInt64[] s = new UInt64[2];
+        private int p;
+        private readonly UInt64[] s = new UInt64[16];
 
         private UInt64 NextValue() {
-            UInt64 s0 = s[0];
-            UInt64 s1 = s[1];
-            UInt64 result = unchecked(RotateLeft(unchecked(s0 * 5), 7) * 9);
+            int q = p;
+            UInt64 s0 = s[p = (p + 1) & 15];
+            UInt64 s15 = s[q];
+            UInt64 result = unchecked(RotateLeft(unchecked(s0 + s15), 23) + s15);
 
-            s1 ^= s0;
-            s[0] = RotateLeft(s0, 24) ^ s1 ^ (s1 << 16);
-            s[1] = RotateLeft(s1, 37);
+            s15 ^= s0;
+            s[q] = RotateLeft(s0, 25) ^ s15 ^ (s15 << 27);
+            s[p] = RotateLeft(s15, 36);
 
             return result;
         }

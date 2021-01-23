@@ -1,19 +1,19 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Xoshiro {
+namespace Xoroshiro {
 
     /// <summary>
-    /// xoshiro64**
-    /// 32-bit all-purpose generator with 64-bit state.
+    /// xoroshiro64*
+    /// 32-bit generator intended for floating point numbers with 64-bit state.
     /// </summary>
-    /// <remarks>http://prng.di.unimi.it/xoroshiro64starstar.c</remarks>
-    public class Xoroshiro64SS {
+    /// <remarks>http://prng.di.unimi.it/xoroshiro64star.c</remarks>
+    public class Xoroshiro64S {
 
         /// <summary>
         /// Creates a new instance.
         /// </summary>
-        public Xoroshiro64SS()
+        public Xoroshiro64S()
             : this((int)(DateTime.UtcNow.Ticks % int.MaxValue)) {
         }
 
@@ -21,7 +21,7 @@ namespace Xoshiro {
         /// Creates a new instance.
         /// </summary>
         /// <param name="seed">Seed value.</param>
-        public Xoroshiro64SS(int seed) {
+        public Xoroshiro64S(int seed) {
             UInt64 x = unchecked((uint)seed);
             for (var i = 0; i < 2; i++) {  // splitmix64
                 var z = unchecked(x += 0x9E3779B97F4A7C15);
@@ -66,7 +66,7 @@ namespace Xoshiro {
         /// Returns random number between 0 and 1 (not inclusive).
         /// </summary>
         public double NextDouble() {
-            var value = (UInt64)NextValue() << 32;
+            var value = (UInt64)(NextValue() >> 6) << 38;  // throw away the lowest six bits as they fail linearity test
             var buffer = BitConverter.GetBytes(((UInt64)0x3FF << 52) | (value >> 12));
             return BitConverter.ToDouble(buffer) - 1.0;
         }
@@ -103,7 +103,7 @@ namespace Xoshiro {
         private UInt32 NextValue() {
             UInt32 s0 = s[0];
             UInt32 s1 = s[1];
-            UInt32 result = unchecked(RotateLeft(unchecked(s0 * (UInt32)0x9E3779BB), 5) * 5);
+            UInt32 result = unchecked(s0 * (UInt32)0x9E3779BB);
 
             s1 ^= s0;
             s[0] = RotateLeft(s0, 26) ^ s1 ^ (s1 << 9);

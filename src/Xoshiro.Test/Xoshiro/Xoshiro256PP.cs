@@ -1,16 +1,17 @@
 using System;
 using System.Reflection;
 using Xunit;
+using Subject = Xoshiro;
 
-namespace Xoshiro.Test {
-    public class Tests_Xoshiro256PP {
+namespace Test.Xoshiro {
+    public class Xoshiro256PP {
 
         [Fact(DisplayName = "xoshiro256++: Reference")]
-        public void Test_InternalStream() {  // checking internal stream is equal to the official implementation
-            var sField = typeof(Xoshiro256PP).GetField("s", BindingFlags.NonPublic | BindingFlags.Instance);
-            var nextValueMethod = typeof(Xoshiro256PP).GetMethod("NextValue", BindingFlags.NonPublic | BindingFlags.Instance);
+        public void InternalStream() {  // checking internal stream is equal to the official implementation
+            var sField = typeof(Subject.Xoshiro256PP).GetField("s", BindingFlags.NonPublic | BindingFlags.Instance);
+            var nextValueMethod = typeof(Subject.Xoshiro256PP).GetMethod("NextValue", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            var random = new Xoshiro256PP();
+            var random = new Subject.Xoshiro256PP();
             sField.SetValue(random, new UInt64[] { 2, 3, 5, 7 });
 
             UInt64[] values = new UInt64[20];
@@ -47,8 +48,8 @@ namespace Xoshiro.Test {
 
 
         [Fact(DisplayName = "xoshiro256++: Seed = 0")]
-        public void Test_Init0() {
-            var random = new Xoshiro256PP(0);
+        public void Init0() {
+            var random = new Subject.Xoshiro256PP(0);
 
             Assert.Equal(1225466847, random.Next());
             Assert.Equal(-1014967033, random.Next());
@@ -75,8 +76,8 @@ namespace Xoshiro.Test {
         }
 
         [Fact(DisplayName = "xoshiro256++: Seed = Int32.MinValue")]
-        public void Test_InitMin() {
-            var random = new Xoshiro256PP(int.MinValue);
+        public void InitMin() {
+            var random = new Subject.Xoshiro256PP(int.MinValue);
 
             Assert.Equal(-538983557, random.Next());
             Assert.Equal(-1685164826, random.Next());
@@ -103,8 +104,8 @@ namespace Xoshiro.Test {
         }
 
         [Fact(DisplayName = "xoshiro256++: Seed = Int32.MaxValue")]
-        public void Test_InitMax() {
-            var random = new Xoshiro256PP(int.MaxValue);
+        public void InitMax() {
+            var random = new Subject.Xoshiro256PP(int.MaxValue);
 
             Assert.Equal(2025513595, random.Next());
             Assert.Equal(1598180243, random.Next());
@@ -132,9 +133,9 @@ namespace Xoshiro.Test {
 
 
         [Fact(DisplayName = "xoshiro256++: Two instances compared")]
-        public void Test_TwoInstances() {  // since we're using 100ns, it should not result in the same random values (let's ignore them being equal by accident)
-            var random1 = new Xoshiro256PP();
-            var random2 = new Xoshiro256PP();
+        public void TwoInstances() {  // since we're using 100ns, it should not result in the same random values (let's ignore them being equal by accident)
+            var random1 = new Subject.Xoshiro256PP();
+            var random2 = new Subject.Xoshiro256PP();
 
             Assert.NotEqual(random1.Next(), random2.Next());
             Assert.NotEqual(random1.Next(), random2.Next());

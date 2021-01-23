@@ -1,19 +1,19 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Xoshiro {
+namespace Xoroshiro {
 
     /// <summary>
-    /// xoroshiro64*
-    /// 32-bit generator intended for floating point numbers with 64-bit state.
+    /// xoroshiro128+
+    /// 64-bit generator intended for floating point numbers with 128-bit state.
     /// </summary>
-    /// <remarks>http://prng.di.unimi.it/xoroshiro64star.c</remarks>
-    public class Xoroshiro64S {
+    /// <remarks>http://prng.di.unimi.it/xoroshiro128plus.c</remarks>
+    public class Xoroshiro128P {
 
         /// <summary>
         /// Creates a new instance.
         /// </summary>
-        public Xoroshiro64S()
+        public Xoroshiro128P()
             : this((int)(DateTime.UtcNow.Ticks % int.MaxValue)) {
         }
 
@@ -21,13 +21,13 @@ namespace Xoshiro {
         /// Creates a new instance.
         /// </summary>
         /// <param name="seed">Seed value.</param>
-        public Xoroshiro64S(int seed) {
+        public Xoroshiro128P(int seed) {
             UInt64 x = unchecked((uint)seed);
             for (var i = 0; i < 2; i++) {  // splitmix64
                 var z = unchecked(x += 0x9E3779B97F4A7C15);
                 z = unchecked((z ^ (z >> 30)) * 0xBF58476D1CE4E5B9);
                 z = unchecked((z ^ (z >> 27)) * 0x94D049BB133111EB);
-                s[i] = unchecked((UInt32)(z ^ (z >> 31)));
+                s[i] = unchecked((UInt64)(z ^ (z >> 31)));
             }
         }
 
@@ -66,7 +66,7 @@ namespace Xoshiro {
         /// Returns random number between 0 and 1 (not inclusive).
         /// </summary>
         public double NextDouble() {
-            var value = (UInt64)(NextValue() >> 6) << 38;  // throw away the lowest six bits as they fail linearity test
+            var value = NextValue();
             var buffer = BitConverter.GetBytes(((UInt64)0x3FF << 52) | (value >> 12));
             return BitConverter.ToDouble(buffer) - 1.0;
         }
@@ -94,20 +94,20 @@ namespace Xoshiro {
         #region Implementation
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static UInt32 RotateLeft(UInt32 x, int k) {
-            return (x << k) | (x >> (32 - k));
+        private static UInt64 RotateLeft(UInt64 x, int k) {
+            return (x << k) | (x >> (64 - k));
         }
 
-        private readonly UInt32[] s = new UInt32[2];
+        private readonly UInt64[] s = new UInt64[2];
 
-        private UInt32 NextValue() {
-            UInt32 s0 = s[0];
-            UInt32 s1 = s[1];
-            UInt32 result = unchecked(s0 * (UInt32)0x9E3779BB);
+        private UInt64 NextValue() {
+            UInt64 s0 = s[0];
+            UInt64 s1 = s[1];
+            UInt64 result = unchecked(s0 + s1);
 
             s1 ^= s0;
-            s[0] = RotateLeft(s0, 26) ^ s1 ^ (s1 << 9);
-            s[1] = RotateLeft(s1, 13);
+            s[0] = RotateLeft(s0, 24) ^ s1 ^ (s1 << 16);
+            s[1] = RotateLeft(s1, 37);
 
             return result;
         }
