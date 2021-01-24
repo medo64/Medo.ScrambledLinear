@@ -1,22 +1,20 @@
 using System;
 using System.Reflection;
 using Xunit;
-using Subject = ScrambledLinear;
 
 namespace Tests.Xoroshiro {
     public class Xoroshiro1024SS {
 
         [Fact(DisplayName = "xoroshiro1024**: Reference")]
         public void InternalStream() {  // checking internal stream is equal to the official implementation
-            var sField = typeof(Subject.Xoroshiro1024SS).GetField("s", BindingFlags.NonPublic | BindingFlags.Instance);
-            var nextValueMethod = typeof(Subject.Xoroshiro1024SS).GetMethod("NextValue", BindingFlags.NonPublic | BindingFlags.Instance);
+            var stateField = typeof(ScrambledLinear.Xoroshiro1024SS).GetField("s", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            var random = new Subject.Xoroshiro1024SS();
-            sField.SetValue(random, new UInt64[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53 });
+            var random = new ScrambledLinear.Xoroshiro1024SS();
+            stateField.SetValue(random, new UInt64[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53 });
 
             UInt64[] values = new UInt64[20];
             for (int i = 0; i < values.Length; i++) {
-                values[i] = (UInt64)nextValueMethod.Invoke(random, null);
+                values[i] = (UInt64)random.Next();
             }
 
             Assert.Equal((UInt64)0x0000000000004380, values[0]);
@@ -41,109 +39,77 @@ namespace Tests.Xoroshiro {
             Assert.Equal((UInt64)0x07c7fe05171ea6c0, values[19]);
 
             for (int i = 0; i < 1000000; i++) {
-                nextValueMethod.Invoke(random, null);
+                random.Next();
             }
-            Assert.Equal((UInt64)0x666167f11124a633, (UInt64)nextValueMethod.Invoke(random, null));
+            Assert.Equal((UInt64)0x666167f11124a633, (UInt64)random.Next());
         }
 
 
-        [Fact(DisplayName = "xoroshiro1024**: Seed = 0")]
-        public void Init0() {
-            var random = new Subject.Xoroshiro1024SS(0);
+        [Fact(DisplayName = "xoroshiro1024**: Seed = UInt64.MinValue")]
+        public void InternalSeedMin() {
+            var random = new ScrambledLinear.Xoroshiro1024SS(unchecked((long)UInt64.MinValue));
 
-            Assert.Equal(-881462604, random.Next());
-            Assert.Equal(-795381232, random.Next());
-            Assert.Equal(-1184153131, random.Next());
-
-            Assert.Equal(5, random.Next(10));
-            Assert.Equal(3, random.Next(10));
-            Assert.Equal(4, random.Next(10));
-
-            Assert.Equal(-7, random.Next(-9, 10));
-            Assert.Equal(-6, random.Next(-9, 10));
-            Assert.Equal(4, random.Next(-9, 10));
-
-            Assert.Equal(0.655539621966331000, random.NextDouble());
-            Assert.Equal(0.558268575131565900, random.NextDouble());
-            Assert.Equal(0.955407932519656500, random.NextDouble());
-
-            var buffer1 = new byte[8]; random.NextBytes(buffer1);
-            var buffer2 = new byte[8]; random.NextBytes(buffer2);
-            var buffer3 = new byte[8]; random.NextBytes(buffer3);
-            Assert.Equal("FB-A4-DE-27-E1-05-D0-C3", BitConverter.ToString(buffer1));
-            Assert.Equal("ED-B4-C6-F4-11-6F-53-5C", BitConverter.ToString(buffer2));
-            Assert.Equal("23-0A-CF-17-C8-D2-16-75", BitConverter.ToString(buffer3));
+            Assert.Equal((UInt64)0x99EC5F36CB75F2B4, (UInt64)random.Next());
+            Assert.Equal((UInt64)0x422EA740D0977210, (UInt64)random.Next());
+            Assert.Equal((UInt64)0x47BACE0BB96B41D5, (UInt64)random.Next());
         }
+
+        [Fact(DisplayName = "xoroshiro1024**: Seed = UInt64.MaxValue")]
+        public void InternalSeedMax() {
+            var random = new ScrambledLinear.Xoroshiro1024SS(unchecked((long)UInt64.MaxValue));
+
+            Assert.Equal((UInt64)0x8F5520D52A7EAD08, (UInt64)random.Next());
+            Assert.Equal((UInt64)0x3752BDAF106AFAEC, (UInt64)random.Next());
+            Assert.Equal((UInt64)0x1C450FE665FF7590, (UInt64)random.Next());
+        }
+
 
         [Fact(DisplayName = "xoroshiro1024**: Seed = Int32.MinValue")]
-        public void InitMin() {
-            var random = new Subject.Xoroshiro1024SS(int.MinValue);
+        public void SeedInt32Min() {
+            var random = new ScrambledLinear.Xoroshiro1024SS(int.MinValue);
 
-            Assert.Equal(1486914389, random.Next());
-            Assert.Equal(1541689574, random.Next());
-            Assert.Equal(270369782, random.Next());
-
-            Assert.Equal(3, random.Next(10));
-            Assert.Equal(1, random.Next(10));
-            Assert.Equal(0, random.Next(10));
-
-            Assert.Equal(4, random.Next(-9, 10));
-            Assert.Equal(-5, random.Next(-9, 10));
-            Assert.Equal(-6, random.Next(-9, 10));
-
-            Assert.Equal(0.890965365816991200, random.NextDouble());
-            Assert.Equal(0.954959475701542700, random.NextDouble());
-            Assert.Equal(0.787838221812683600, random.NextDouble());
-
-            var buffer1 = new byte[8]; random.NextBytes(buffer1);
-            var buffer2 = new byte[8]; random.NextBytes(buffer2);
-            var buffer3 = new byte[8]; random.NextBytes(buffer3);
-            Assert.Equal("B3-A1-41-D6-8D-45-B6-91", BitConverter.ToString(buffer1));
-            Assert.Equal("F4-10-08-12-8F-AA-F8-4A", BitConverter.ToString(buffer2));
-            Assert.Equal("CA-29-62-6B-9D-80-15-24", BitConverter.ToString(buffer3));
+            Assert.Equal((UInt64)0x4B7343315892350A, (UInt64)random.Next());
+            Assert.Equal((UInt64)0xD9D08FC0E3F91BAE, (UInt64)random.Next());
+            Assert.Equal((UInt64)0xEFA39D68E6CDEA18, (UInt64)random.Next());
         }
 
         [Fact(DisplayName = "xoroshiro1024**: Seed = Int32.MaxValue")]
-        public void InitMax() {
-            var random = new Subject.Xoroshiro1024SS(int.MaxValue);
+        public void SeedInt32Max() {
+            var random = new ScrambledLinear.Xoroshiro1024SS(int.MaxValue);
 
-            Assert.Equal(1838284367, random.Next());
-            Assert.Equal(-199112859, random.Next());
-            Assert.Equal(-1033718635, random.Next());
+            Assert.Equal((UInt64)0x437D8D6D6D91FE4F, (UInt64)random.Next());
+            Assert.Equal((UInt64)0x52B5503AF421C765, (UInt64)random.Next());
+            Assert.Equal((UInt64)0xFA4254A8C262B495, (UInt64)random.Next());
+        }
 
-            Assert.Equal(9, random.Next(10));
-            Assert.Equal(1, random.Next(10));
-            Assert.Equal(2, random.Next(10));
 
-            Assert.Equal(6, random.Next(-9, 10));
-            Assert.Equal(7, random.Next(-9, 10));
-            Assert.Equal(-9, random.Next(-9, 10));
+        [Fact(DisplayName = "xoroshiro1024**: Seed = Int64.MinValue")]
+        public void SeedInt64Min() {
+            var random = new ScrambledLinear.Xoroshiro1024SS(long.MinValue);
 
-            Assert.Equal(0.193587739648112930, random.NextDouble());
-            Assert.Equal(0.285017530096625340, random.NextDouble());
-            Assert.Equal(0.116275265153288120, random.NextDouble());
+            Assert.Equal((UInt64)0xD01BFA9B44A998C3, (UInt64)random.Next());
+            Assert.Equal((UInt64)0x22C6FB14EC5C2414, (UInt64)random.Next());
+            Assert.Equal((UInt64)0x8E628F177B24E5CE, (UInt64)random.Next());
+        }
 
-            var buffer1 = new byte[8]; random.NextBytes(buffer1);
-            var buffer2 = new byte[8]; random.NextBytes(buffer2);
-            var buffer3 = new byte[8]; random.NextBytes(buffer3);
-            Assert.Equal("CA-DC-78-98-C8-66-8F-5B", BitConverter.ToString(buffer1));
-            Assert.Equal("BB-46-79-B8-C3-C9-BE-0F", BitConverter.ToString(buffer2));
-            Assert.Equal("A2-29-66-B1-C6-F1-BE-90", BitConverter.ToString(buffer3));
+        [Fact(DisplayName = "xoroshiro1024**: Seed = Int64.MaxValue")]
+        public void SeedInt64Max() {
+            var random = new ScrambledLinear.Xoroshiro1024SS(long.MaxValue);
+
+            Assert.Equal((UInt64)0xE1C2B4B82E8C0C5, (UInt64)random.Next());
+            Assert.Equal((UInt64)0xE572ADE752C32ABE, (UInt64)random.Next());
+            Assert.Equal((UInt64)0xD45BE90F7A959250, (UInt64)random.Next());
         }
 
 
         [Fact(DisplayName = "xoroshiro1024**: Two instances compared")]
         public void TwoInstances() {  // since we're using 100ns, it should not result in the same random values (let's ignore them being equal by accident)
-            var random1 = new Subject.Xoroshiro1024SS();
-            var random2 = new Subject.Xoroshiro1024SS();
+            var random1 = new ScrambledLinear.Xoroshiro1024SS();
+            var random2 = new ScrambledLinear.Xoroshiro1024SS();
 
             Assert.NotEqual(random1.Next(), random2.Next());
             Assert.NotEqual(random1.Next(), random2.Next());
             Assert.NotEqual(random1.Next(), random2.Next());
-
-            Assert.NotEqual(random1.NextDouble(), random2.NextDouble());
-            Assert.NotEqual(random1.NextDouble(), random2.NextDouble());
-            Assert.NotEqual(random1.NextDouble(), random2.NextDouble());
         }
 
     }
