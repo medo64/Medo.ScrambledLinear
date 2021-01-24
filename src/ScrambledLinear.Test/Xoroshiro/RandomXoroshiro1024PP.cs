@@ -48,9 +48,9 @@ namespace Tests.Xoroshiro {
             Assert.Equal(6, random.Next(-9, 10));
             Assert.Equal(-8, random.Next(-9, 10));
 
-            Assert.Equal(0.3566163613189650, random.NextDouble());
-            Assert.Equal(0.7550644471939258, random.NextDouble());
-            Assert.Equal(0.9041889871699487, random.NextDouble());
+            Assert.Equal(0.356616361318965000, random.NextDouble());
+            Assert.Equal(0.755064447193925800, random.NextDouble());
+            Assert.Equal(0.904188987169948700, random.NextDouble());
 
             var buffer1 = new byte[10]; random.NextBytes(buffer1);
             var buffer2 = new byte[10]; random.NextBytes(buffer2);
