@@ -21,4 +21,17 @@
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageId>Medo.ScrambledLinear</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Josip Medved</Authors>
+    <Company>www.medo64.com</Company>
+    <PackageTags>Xoshiro;Xoroshiro;SplitMix64;Random</PackageTags>
+    <Description>
+        This is a C# implementation of xoshiro/xoroshiro family of
+        algorithms that were created by Sebastiano Vigna and David
+        Blackman.
+    </Description>
+  </PropertyGroup>
+
 </Project>

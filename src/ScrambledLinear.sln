@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrambledLinear", "Scramble
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrambledLinear.Test", "ScrambledLinear.Test\ScrambledLinear.Test.csproj", "{44A402DA-F3C3-4B15-9270-924BD29D41FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrambledLinear.Example", "ScrambledLinear.Example\ScrambledLinear.Example.csproj", "{AF932755-4704-4A45-B4B2-6AF316AF2517}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrambledLinear.Sample", "ScrambledLinear.Sample\ScrambledLinear.Sample.csproj", "{AF932755-4704-4A45-B4B2-6AF316AF2517}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
