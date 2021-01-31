@@ -17,8 +17,8 @@ debug:
 release:
 	@./Make.sh release
 
-package: release
+package:
 	@./Make.sh package
 
-test:
+test: debug
 	@./Make.sh test

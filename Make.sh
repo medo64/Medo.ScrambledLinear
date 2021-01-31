@@ -129,6 +129,7 @@ function package() {
 
 function nuget() {  # (api_key)
     API_KEY="$1"
+    if [[ "$API_KEY" == "" ]]; then return 1; fi
     echo ".NET `dotnet --version`"
     dotnet nuget push "$BASE_DIRECTORY/dist/$PACKAGE_ID.$PACKAGE_VERSION.nupkg" \
                       --source "https://api.nuget.org/v3/index.json" \
@@ -154,19 +155,25 @@ PACKAGE_ID=`cat "$BASE_DIRECTORY/src/ScrambledLinear/ScrambledLinear.csproj" | g
 PACKAGE_VERSION=`cat "$BASE_DIRECTORY/src/ScrambledLinear/ScrambledLinear.csproj" | grep "<Version>" | sed 's^</\?Version>^^g' | xargs`
 
 while [ $# -gt 0 ]; do
-    case "$1" in
-        all)        clean ;;
-        clean)      clean ;;
-        distclean)  distclean ;;
-        dist)       dist ;;
-        debug)      debug ;;
-        release)    release ;;
-        package)    package ;;
-        nuget)      package ; nuget "$2" ; shift ;;
-        test)       test ;;
+    OPERATION="$1"
+    case "$OPERATION" in
+        all)        clean || break ;;
+        clean)      clean || break ;;
+        distclean)  distclean || break ;;
+        dist)       dist || break ;;
+        debug)      debug || break ;;
+        release)    release || break ;;
+        package)    package || break ;;
+        nuget)      package || break ; shift ; nuget "$1" || break ;;
+        test)       test || break ;;
 
-        *)  echo "${ANSI_RED}Unknown operation '$1'!${ANSI_RESET}" >&2 ; exit 1 ;;
+        *)  echo "${ANSI_RED}Unknown operation '$OPERATION'!${ANSI_RESET}" >&2 ; exit 1 ;;
     esac
 
     shift
 done
+
+if [[ "$1" != "" ]]; then
+    echo "${ANSI_RED}Error performing '$OPERATION' operation!${ANSI_RESET}" >&2
+    exit 1
+fi
