@@ -20,9 +20,9 @@ namespace Tests.Xoroshiro {
             Assert.Equal(4, random.Next(-9, 10));
             Assert.Equal(7, random.Next(-9, 10));
 
-            Assert.Equal(0.316018995128142470, random.NextDouble());
+            Assert.Equal(0.316018995128142600, random.NextDouble());
             Assert.Equal(0.663537559698846600, random.NextDouble());
-            Assert.Equal(0.747768719361041200, random.NextDouble());
+            Assert.Equal(0.747768719361041300, random.NextDouble());
 
             var buffer1 = new byte[10]; random.NextBytes(buffer1);
             var buffer2 = new byte[10]; random.NextBytes(buffer2);
@@ -49,7 +49,7 @@ namespace Tests.Xoroshiro {
             Assert.Equal(-8, random.Next(-9, 10));
 
             Assert.Equal(0.439232678287176700, random.NextDouble());
-            Assert.Equal(0.645709953020101800, random.NextDouble());
+            Assert.Equal(0.645709953020101900, random.NextDouble());
             Assert.Equal(0.045728978769091990, random.NextDouble());
 
             var buffer1 = new byte[10]; random.NextBytes(buffer1);
@@ -76,9 +76,9 @@ namespace Tests.Xoroshiro {
             Assert.Equal(9, random.Next(-9, 10));
             Assert.Equal(1, random.Next(-9, 10));
 
-            Assert.Equal(0.388907956085095650, random.NextDouble());
-            Assert.Equal(0.140679433361960320, random.NextDouble());
-            Assert.Equal(0.047973743341569010, random.NextDouble());
+            Assert.Equal(0.388907956085095760, random.NextDouble());
+            Assert.Equal(0.140679433361960430, random.NextDouble());
+            Assert.Equal(0.047973743341569120, random.NextDouble());
 
             var buffer1 = new byte[10]; random.NextBytes(buffer1);
             var buffer2 = new byte[10]; random.NextBytes(buffer2);

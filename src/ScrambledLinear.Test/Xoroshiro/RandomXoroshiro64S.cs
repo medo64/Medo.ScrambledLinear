@@ -20,9 +20,9 @@ namespace Tests.Xoroshiro {
             Assert.Equal(-5, random.Next(-9, 10));
             Assert.Equal(-8, random.Next(-9, 10));
 
-            Assert.Equal(0.673005640506744400, random.NextDouble());
-            Assert.Equal(0.140669375658035280, random.NextDouble());
-            Assert.Equal(0.907178431749343900, random.NextDouble());
+            Assert.Equal(0.673005643999204000, random.NextDouble());
+            Assert.Equal(0.140669378219172360, random.NextDouble());
+            Assert.Equal(0.907178434077650300, random.NextDouble());
 
             var buffer1 = new byte[10]; random.NextBytes(buffer1);
             var buffer2 = new byte[10]; random.NextBytes(buffer2);
@@ -48,9 +48,9 @@ namespace Tests.Xoroshiro {
             Assert.Equal(8, random.Next(-9, 10));
             Assert.Equal(1, random.Next(-9, 10));
 
-            Assert.Equal(0.473199278116226200, random.NextDouble());
-            Assert.Equal(0.501838847994804400, random.NextDouble());
-            Assert.Equal(0.898414775729179400, random.NextDouble());
+            Assert.Equal(0.473199291620403530, random.NextDouble());
+            Assert.Equal(0.501838854514062400, random.NextDouble());
+            Assert.Equal(0.898414784111082600, random.NextDouble());
 
             var buffer1 = new byte[10]; random.NextBytes(buffer1);
             var buffer2 = new byte[10]; random.NextBytes(buffer2);
@@ -76,9 +76,9 @@ namespace Tests.Xoroshiro {
             Assert.Equal(-5, random.Next(-9, 10));
             Assert.Equal(2, random.Next(-9, 10));
 
-            Assert.Equal(0.988461241126060500, random.NextDouble());
-            Assert.Equal(0.735286518931388900, random.NextDouble());
-            Assert.Equal(0.049030110239982605, random.NextDouble());
+            Assert.Equal(0.988461249973625000, random.NextDouble());
+            Assert.Equal(0.735286523355171100, random.NextDouble());
+            Assert.Equal(0.049030120484530926, random.NextDouble());
 
             var buffer1 = new byte[10]; random.NextBytes(buffer1);
             var buffer2 = new byte[10]; random.NextBytes(buffer2);

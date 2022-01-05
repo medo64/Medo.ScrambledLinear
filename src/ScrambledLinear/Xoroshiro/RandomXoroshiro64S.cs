@@ -54,13 +54,13 @@ namespace ScrambledLinear {
             return Algorithm.Next();
         }
 
+        private const double Unit = 1.0 / (1UL << 32);
+
         /// <summary>
         /// Returns random number between 0 and 1 (not inclusive).
         /// </summary>
         public double NextDouble() {
-            var value = (UInt64)((UInt32)Algorithm.Next() >> 6) << 38;  // throw away the lowest six bits as they fail linearity test
-            var buffer = BitConverter.GetBytes(((UInt64)0x3FF << 52) | (value >> 12));
-            return BitConverter.ToDouble(buffer) - 1.0;
+            return (UInt32)Algorithm.Next() * Unit;  // from 32-bit integer
         }
 
         /// <summary>

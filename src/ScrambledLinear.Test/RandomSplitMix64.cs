@@ -21,8 +21,8 @@ namespace Tests {
             Assert.Equal(-5, random.Next(-9, 10));
 
             Assert.Equal(0.952030691367826500, random.NextDouble());
-            Assert.Equal(0.396467975628813400, random.NextDouble());
-            Assert.Equal(0.761034421627626800, random.NextDouble());
+            Assert.Equal(0.396467975628813530, random.NextDouble());
+            Assert.Equal(0.761034421627626900, random.NextDouble());
 
             var buffer1 = new byte[10]; random.NextBytes(buffer1);
             var buffer2 = new byte[10]; random.NextBytes(buffer2);
@@ -49,8 +49,8 @@ namespace Tests {
             Assert.Equal(1, random.Next(-9, 10));
 
             Assert.Equal(0.206939391850385230, random.NextDouble());
-            Assert.Equal(0.233547948811709370, random.NextDouble());
-            Assert.Equal(0.850294317496663700, random.NextDouble());
+            Assert.Equal(0.233547948811709480, random.NextDouble());
+            Assert.Equal(0.850294317496663800, random.NextDouble());
 
             var buffer1 = new byte[10]; random.NextBytes(buffer1);
             var buffer2 = new byte[10]; random.NextBytes(buffer2);
@@ -77,7 +77,7 @@ namespace Tests {
             Assert.Equal(-3, random.Next(-9, 10));
 
             Assert.Equal(0.901738151029807500, random.NextDouble());
-            Assert.Equal(0.239443331204799880, random.NextDouble());
+            Assert.Equal(0.239443331204800000, random.NextDouble());
             Assert.Equal(0.925917537765641700, random.NextDouble());
 
             var buffer1 = new byte[10]; random.NextBytes(buffer1);

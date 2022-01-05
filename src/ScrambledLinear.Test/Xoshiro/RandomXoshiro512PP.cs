@@ -20,7 +20,7 @@ namespace Tests.Xoshiro {
             Assert.Equal(8, random.Next(-9, 10));
             Assert.Equal(-6, random.Next(-9, 10));
 
-            Assert.Equal(0.326677362647187500, random.NextDouble());
+            Assert.Equal(0.326677362647187600, random.NextDouble());
             Assert.Equal(0.303055016085369800, random.NextDouble());
             Assert.Equal(0.886694060932961200, random.NextDouble());
 
@@ -49,7 +49,7 @@ namespace Tests.Xoshiro {
             Assert.Equal(-7, random.Next(-9, 10));
 
             Assert.Equal(0.243250448744908750, random.NextDouble());
-            Assert.Equal(0.295764847945367600, random.NextDouble());
+            Assert.Equal(0.295764847945367700, random.NextDouble());
             Assert.Equal(0.979685462900648400, random.NextDouble());
 
             var buffer1 = new byte[10]; random.NextBytes(buffer1);
@@ -77,7 +77,7 @@ namespace Tests.Xoshiro {
             Assert.Equal(-9, random.Next(-9, 10));
 
             Assert.Equal(0.227928046003613940, random.NextDouble());
-            Assert.Equal(0.990906342309305900, random.NextDouble());
+            Assert.Equal(0.990906342309306000, random.NextDouble());
             Assert.Equal(0.562925762968837300, random.NextDouble());
 
             var buffer1 = new byte[10]; random.NextBytes(buffer1);
