@@ -5,7 +5,7 @@
     <LangVersion>latest</LangVersion>
     <IsPackable>false</IsPackable>
     <RootNamespace>Tests</RootNamespace>
-    <AssemblyName>ScrambledLinear.Test</AssemblyName>
+    <AssemblyName>ScrambledLinear.Tests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ScrambledLinear\ScrambledLinear.csproj" />
+    <ProjectReference Include="..\src\ScrambledLinear.csproj" />
   </ItemGroup>
 
 </Project>

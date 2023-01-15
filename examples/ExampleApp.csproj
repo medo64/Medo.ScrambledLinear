@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ScrambledLinear\ScrambledLinear.csproj" />
+    <ProjectReference Include="..\src\ScrambledLinear.csproj" />
   </ItemGroup>
 
 </Project>

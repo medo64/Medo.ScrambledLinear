@@ -151,8 +151,8 @@ function test() {
 }
 
 
-PACKAGE_ID=`cat "$BASE_DIRECTORY/src/ScrambledLinear/ScrambledLinear.csproj" | grep "<PackageId>" | sed 's^</\?PackageId>^^g' | xargs`
-PACKAGE_VERSION=`cat "$BASE_DIRECTORY/src/ScrambledLinear/ScrambledLinear.csproj" | grep "<Version>" | sed 's^</\?Version>^^g' | xargs`
+PACKAGE_ID=`cat "$BASE_DIRECTORY/src/ScrambledLinear.csproj" | grep "<PackageId>" | sed 's^</\?PackageId>^^g' | xargs`
+PACKAGE_VERSION=`cat "$BASE_DIRECTORY/src/ScrambledLinear.csproj" | grep "<Version>" | sed 's^</\?Version>^^g' | xargs`
 
 while [ $# -gt 0 ]; do
     OPERATION="$1"

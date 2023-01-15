@@ -9,11 +9,10 @@
         "build/": true,
         "dist/": true,
         "src/.vs/": true,
-        "src/.editorconfig": true,
-        "src/omnisharp.json": true,
-        "src/*/bin/": true,
-        "src/*/obj/": true,
+        ".editorconfig": true,
+        "**/bin/": true,
+        "**/obj/": true
     },
-    "dotnet-test-explorer.testProjectPath": "src/Xoshiro.Test/Xoshiro.Test.csproj",
+    "dotnet-test-explorer.testProjectPath": "tests/Tests.csproj",
     "omnisharp.useEditorFormattingSettings": false
 }

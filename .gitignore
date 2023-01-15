@@ -2,8 +2,10 @@ bin/
 build/
 dist/
 research/
-src/.vs/
-src/*/obj/
+
+**/.vs/
+**/obj/
+**/bin/
 
 a.out
 
