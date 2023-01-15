@@ -1,17 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
     <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
-    <WarningsAsErrors>CS8625</WarningsAsErrors>
   </PropertyGroup>
 
   <PropertyGroup>
     <AssemblyName>ScrambledLinear</AssemblyName>
-    <OutputType>Library</OutputType>
-    <Deterministic>True</Deterministic>
     <RootNamespace>ScrambledLinear</RootNamespace>
+    <WarningsAsErrors>CS8625</WarningsAsErrors>
   </PropertyGroup>
 
   <PropertyGroup>

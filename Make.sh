@@ -3,10 +3,10 @@
 if [ -t 1 ]; then
     ANSI_RESET="$(tput sgr0)"
     ANSI_UNDERLINE="$(tput smul)"
-    ANSI_RED="$(tput setaf 1)$(tput bold)"
-    ANSI_YELLOW="$(tput setaf 3)$(tput bold)"
-    ANSI_CYAN="$(tput setaf 6)$(tput bold)"
-    ANSI_WHITE="$(tput setaf 7)$(tput bold)"
+    ANSI_RED="`[ $(tput colors) -ge 16 ] && tput setaf 9 || tput setaf 1 bold`"
+    ANSI_YELLOW="`[ $(tput colors) -ge 16 ] && tput setaf 11 || tput setaf 3 bold`"
+    ANSI_CYAN="`[ $(tput colors) -ge 16 ] && tput setaf 14 || tput setaf 6 bold`"
+    ANSI_WHITE="`[ $(tput colors) -ge 16 ] && tput setaf 15 || tput setaf 7 bold`"
 fi
 
 while getopts ":h" OPT; do
@@ -48,8 +48,12 @@ BASE_DIRECTORY="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 function clean() {
     rm -r "$BASE_DIRECTORY/bin/" 2>/dev/null
     rm -r "$BASE_DIRECTORY/build/" 2>/dev/null
-    rm -r "$BASE_DIRECTORY/src/**/bin/" 2>/dev/null
-    rm -r "$BASE_DIRECTORY/src/**/obj/" 2>/dev/null
+    rm -r "$BASE_DIRECTORY/src/bin/" 2>/dev/null
+    rm -r "$BASE_DIRECTORY/src/obj/" 2>/dev/null
+    rm -r "$BASE_DIRECTORY/tests/bin/" 2>/dev/null
+    rm -r "$BASE_DIRECTORY/tests/obj/" 2>/dev/null
+    rm -r "$BASE_DIRECTORY/examples/**/bin/" 2>/dev/null
+    rm -r "$BASE_DIRECTORY/examples/**/obj/" 2>/dev/null
     return 0
 }
 
@@ -64,7 +68,7 @@ function dist() {
     DIST_FILE=
     rm -r "$DIST_DIRECTORY/" 2>/dev/null
     mkdir -p "$DIST_DIRECTORY/"
-    for DIRECTORY in "Makefile" "Make.sh" "CONTRIBUTING.md" "ICON.png" "LICENSE.md" "README.md" "lib" "src"; do
+    for DIRECTORY in "Makefile" "Make.sh" "CONTRIBUTING.md" "ICON.png" "LICENSE.md" "README.md" ".editorconfig" "lib/" "src/" "tests/" "examples/"; do
         cp -r "$BASE_DIRECTORY/$DIRECTORY" "$DIST_DIRECTORY/"
     done
     find "$DIST_DIRECTORY/src/" -name ".vs" -type d -exec rm -rf {} \; 2>/dev/null
@@ -84,6 +88,7 @@ function debug() {
     mkdir -p "$BASE_DIRECTORY/bin/"
     mkdir -p "$BASE_DIRECTORY/build/debug/"
     dotnet build "$BASE_DIRECTORY/src/ScrambledLinear.sln" \
+                 --framework "net7.0" \
                  --configuration "Debug" \
                  --output "$BASE_DIRECTORY/build/debug/" \
                  --verbosity "minimal" \
@@ -100,6 +105,7 @@ function release() {
     mkdir -p "$BASE_DIRECTORY/bin/"
     mkdir -p "$BASE_DIRECTORY/build/release/"
     dotnet build "$BASE_DIRECTORY/src/ScrambledLinear.sln" \
+                 --framework "net7.0" \
                  --configuration "Release" \
                  --output "$BASE_DIRECTORY/build/release/" \
                  --verbosity "minimal" \
@@ -116,7 +122,7 @@ function package() {
                 --configuration "Release" \
                 --force \
                 --include-source \
-                    -p:SymbolPackageFormat=snupkg \
+                -p:SymbolPackageFormat=snupkg \
                 --output "$BASE_DIRECTORY/build/package/" \
                 --verbosity "minimal" \
                 || return 1
