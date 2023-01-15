@@ -26,11 +26,13 @@
     <Authors>Josip Medved</Authors>
     <Copyright>CC0</Copyright>
     <Company>www.medo64.com</Company>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>Xoshiro;Xoroshiro;SplitMix64;Random;Xoshiro256**</PackageTags>
     <PackageIcon>ICON.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageProjectUrl>https://www.medo64.com/ScrambledLinear/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/medo64/ScrambledLinear-</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/medo64/ScrambledLinear/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/medo64/ScrambledLinear/</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <Description>
         This is a C# implementation of xoshiro/xoroshiro algorithm
@@ -40,7 +42,7 @@
 
   <ItemGroup>
     <None Include="../ICON.png" Pack="true" PackagePath=""/>
-    <None Include="../LICENSE.md" Pack="true" PackagePath=""/>
     <None Include="../README.md" Pack="true" PackagePath=""/>
+    <None Include="../LICENSE.md" Pack="true" PackagePath=""/>
   </ItemGroup>
 </Project>
