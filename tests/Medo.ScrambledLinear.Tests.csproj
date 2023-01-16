@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\ScrambledLinear.csproj" />
+    <ProjectReference Include="..\src\Medo.ScrambledLinear.csproj" />
   </ItemGroup>
 
 </Project>

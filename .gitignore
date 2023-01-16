@@ -9,5 +9,6 @@ research/
 
 a.out
 
+.nuget.key
 .*.swp
 *.zip

@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <UseAppHost>false</UseAppHost>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\ScrambledLinear.csproj" />
+    <ProjectReference Include="..\..\src\Medo.ScrambledLinear.csproj" />
   </ItemGroup>
 
 </Project>

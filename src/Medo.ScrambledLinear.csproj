@@ -1,6 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <AssemblyName>Medo.ScrambledLinear</AssemblyName>
+    <RootNamespace>ScrambledLinear</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
     <LangVersion>11.0</LangVersion>
@@ -8,9 +13,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>ScrambledLinear</AssemblyName>
-    <RootNamespace>ScrambledLinear</RootNamespace>
-    <WarningsAsErrors>CS8625</WarningsAsErrors>
+    <Deterministic>true</Deterministic>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -18,21 +26,21 @@
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <WarningsAsErrors>CS8625</WarningsAsErrors>
   </PropertyGroup>
 
   <PropertyGroup>
     <PackageId>ScrambledLinear</PackageId>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <Authors>Josip Medved</Authors>
     <Copyright>CC0</Copyright>
     <Company>www.medo64.com</Company>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>Xoshiro;Xoroshiro;SplitMix64;Random;Xoshiro256**</PackageTags>
     <PackageIcon>ICON.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/medo64/ScrambledLinear/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/medo64/ScrambledLinear/</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/medo64/Medo.ScrambledLinear/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/medo64/Medo.ScrambledLinear/</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <Description>
         This is a C# implementation of xoshiro/xoroshiro algorithm
@@ -45,4 +53,5 @@
     <None Include="../README.md" Pack="true" PackagePath=""/>
     <None Include="../LICENSE.md" Pack="true" PackagePath=""/>
   </ItemGroup>
+
 </Project>

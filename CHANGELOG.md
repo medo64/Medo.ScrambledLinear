@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.2.1] - 2023-01-15
+
+- Minor directory refactoring
+
+
 ## [1.2.0] - 2023-01-14
 
 - .NET 7
@@ -23,7 +28,8 @@
 
 
 
-[unreleased]: https://github.com/medo64//ScrambledLinear/
+[unreleased]: https://github.com/medo64/Medo.ScrambledLinear/
+[1.2.1]: https://www.nuget.org/packages/ScrambledLinear/1.2.1
 [1.2.0]: https://www.nuget.org/packages/ScrambledLinear/1.2.0
 [1.1.0]: https://www.nuget.org/packages/ScrambledLinear/1.1.0
 [1.0.1]: https://www.nuget.org/packages/ScrambledLinear/1.0.1

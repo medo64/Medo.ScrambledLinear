@@ -87,14 +87,14 @@ function dist() {
 function debug() {
     mkdir -p "$BASE_DIRECTORY/bin/"
     mkdir -p "$BASE_DIRECTORY/build/debug/"
-    dotnet build "$BASE_DIRECTORY/src/ScrambledLinear.sln" \
+    dotnet build "$BASE_DIRECTORY/src/Medo.ScrambledLinear.sln" \
                  --framework "net7.0" \
                  --configuration "Debug" \
                  --output "$BASE_DIRECTORY/build/debug/" \
                  --verbosity "minimal" \
                  || return 1
-    cp "$BASE_DIRECTORY/build/debug/ScrambledLinear.dll" "$BASE_DIRECTORY/bin/" || return 1
-    cp "$BASE_DIRECTORY/build/debug/ScrambledLinear.pdb" "$BASE_DIRECTORY/bin/" || return 1
+    cp "$BASE_DIRECTORY/build/debug/Medo.ScrambledLinear.dll" "$BASE_DIRECTORY/bin/" || return 1
+    cp "$BASE_DIRECTORY/build/debug/Medo.ScrambledLinear.pdb" "$BASE_DIRECTORY/bin/" || return 1
     echo "${ANSI_CYAN}Output in 'bin/'${ANSI_RESET}"
 }
 
@@ -104,25 +104,24 @@ function release() {
     fi
     mkdir -p "$BASE_DIRECTORY/bin/"
     mkdir -p "$BASE_DIRECTORY/build/release/"
-    dotnet build "$BASE_DIRECTORY/src/ScrambledLinear.sln" \
+    dotnet build "$BASE_DIRECTORY/src/Medo.ScrambledLinear.sln" \
                  --framework "net7.0" \
                  --configuration "Release" \
                  --output "$BASE_DIRECTORY/build/release/" \
                  --verbosity "minimal" \
                  || return 1
-    cp "$BASE_DIRECTORY/build/release/ScrambledLinear.dll" "$BASE_DIRECTORY/bin/" || return 1
-    cp "$BASE_DIRECTORY/build/release/ScrambledLinear.pdb" "$BASE_DIRECTORY/bin/" || return 1
+    cp "$BASE_DIRECTORY/build/release/Medo.ScrambledLinear.dll" "$BASE_DIRECTORY/bin/" || return 1
+    cp "$BASE_DIRECTORY/build/release/Medo.ScrambledLinear.pdb" "$BASE_DIRECTORY/bin/" || return 1
     echo "${ANSI_CYAN}Output in 'bin/'${ANSI_RESET}"
 }
 
 function package() {
     mkdir -p "$BASE_DIRECTORY/build/package/"
     echo ".NET `dotnet --version`"
-    dotnet pack "$BASE_DIRECTORY/src/ScrambledLinear.sln" \
+    dotnet pack "$BASE_DIRECTORY/src/Medo.ScrambledLinear.sln" \
                 --configuration "Release" \
                 --force \
                 --include-source \
-                -p:SymbolPackageFormat=snupkg \
                 --output "$BASE_DIRECTORY/build/package/" \
                 --verbosity "minimal" \
                 || return 1
@@ -134,22 +133,25 @@ function package() {
 }
 
 function nuget() {  # (api_key)
-    API_KEY="$1"
-    if [[ "$API_KEY" == "" ]]; then return 1; fi
+    API_KEY=`cat "$BASE_DIRECTORY/.nuget.key" | xargs`
+    if [[ "$API_KEY" == "" ]]; then
+        echo "${ANSI_RED}No key in .nuget.key!${ANSI_RESET}" >&2
+        return 1;
+    fi
     echo ".NET `dotnet --version`"
     dotnet nuget push "$BASE_DIRECTORY/dist/$PACKAGE_ID.$PACKAGE_VERSION.nupkg" \
                       --source "https://api.nuget.org/v3/index.json" \
                       --api-key "$API_KEY" \
                       --symbol-api-key "$API_KEY" \
                       || return 1
-    echo "${ANSI_CYAN}Output at 'dist/$PACKAGE_ID-$PACKAGE_VERSION.nupkg'${ANSI_RESET}"
+    echo "${ANSI_CYAN}Sent to 'dist/$PACKAGE_ID-$PACKAGE_VERSION.nupkg'${ANSI_RESET}"
     return 0
 }
 
 function test() {
     mkdir -p "$BASE_DIRECTORY/build/test/"
     echo ".NET `dotnet --version`"
-    dotnet test "$BASE_DIRECTORY/src/ScrambledLinear.sln" \
+    dotnet test "$BASE_DIRECTORY/src/Medo.ScrambledLinear.sln" \
                 --configuration "Debug" \
                 --output "$BASE_DIRECTORY/build/test/" \
                 --verbosity "minimal" \
@@ -157,8 +159,8 @@ function test() {
 }
 
 
-PACKAGE_ID=`cat "$BASE_DIRECTORY/src/ScrambledLinear.csproj" | grep "<PackageId>" | sed 's^</\?PackageId>^^g' | xargs`
-PACKAGE_VERSION=`cat "$BASE_DIRECTORY/src/ScrambledLinear.csproj" | grep "<Version>" | sed 's^</\?Version>^^g' | xargs`
+PACKAGE_ID=`cat "$BASE_DIRECTORY/src/Medo.ScrambledLinear.csproj" | grep "<PackageId>" | sed 's^</\?PackageId>^^g' | xargs`
+PACKAGE_VERSION=`cat "$BASE_DIRECTORY/src/Medo.ScrambledLinear.csproj" | grep "<Version>" | sed 's^</\?Version>^^g' | xargs`
 
 while [ $# -gt 0 ]; do
     OPERATION="$1"
@@ -166,12 +168,12 @@ while [ $# -gt 0 ]; do
         all)        clean || break ;;
         clean)      clean || break ;;
         distclean)  distclean || break ;;
-        dist)       dist || break ;;
-        debug)      debug || break ;;
-        release)    release || break ;;
-        package)    test && package || break ;;
-        nuget)      test && package || break ; shift ; nuget "$1" || break ;;
-        test)       test || break ;;
+        dist)       distclean && dist || break ;;
+        debug)      clean && debug || break ;;
+        release)    clean && release || break ;;
+        package)    clean && test && package || break ;;
+        nuget)      clean && test && package && nuget || break ;;
+        test)       clean && test || break ;;
 
         *)  echo "${ANSI_RED}Unknown operation '$OPERATION'!${ANSI_RESET}" >&2 ; exit 1 ;;
     esac
