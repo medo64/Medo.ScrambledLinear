@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.2] - 2023-01-15
+
+- Changed NuGet package name to Medo.ScrambledLinear
+- Obsoleted NuGet package ScrambledLinear
+
+
 ## [1.2.1] - 2023-01-15
 
 - Minor directory refactoring
@@ -29,6 +35,7 @@
 
 
 [unreleased]: https://github.com/medo64/Medo.ScrambledLinear/
+[1.2.2]: https://www.nuget.org/packages/Medo.ScrambledLinear/1.2.2
 [1.2.1]: https://www.nuget.org/packages/ScrambledLinear/1.2.1
 [1.2.0]: https://www.nuget.org/packages/ScrambledLinear/1.2.0
 [1.1.0]: https://www.nuget.org/packages/ScrambledLinear/1.1.0
